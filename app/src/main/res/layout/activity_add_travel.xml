@@ -6,72 +6,92 @@
     android:layout_height="match_parent"
     tools:context=".UI.AddTravelActivity">
     <CalendarView
-        android:id="@+id/calendarView"
+        android:id="@+id/calendarDate"
         android:layout_width="317dp"
         android:layout_height="288dp"
         tools:layout_editor_absoluteX="19dp"
         tools:layout_editor_absoluteY="62dp"
-        android:visibility="0"/>
+        android:visibility="invisible"/>
     <EditText
+        android:id="@+id/name"
         android:layout_width="288dp"
         android:layout_height="49dp"
         android:hint="Name"
-        tools:layout_editor_absoluteX="21dp"
+        tools:layout_editor_absoluteX="19dp"
         tools:layout_editor_absoluteY="64dp" />
 
     <EditText
-        android:id="@+id/editText3"
-        android:layout_width="288dp"
-        android:layout_height="49dp"
-        android:hint="Source address"
-        tools:layout_editor_absoluteX="21dp"
-        tools:layout_editor_absoluteY="288dp" />
-
-    <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/returnAddressText"
         android:layout_width="288dp"
         android:layout_height="49dp"
         android:hint="Return address"
-        tools:layout_editor_absoluteX="21dp"
-        tools:layout_editor_absoluteY="363dp" />
+        tools:layout_editor_absoluteX="19dp"
+        tools:layout_editor_absoluteY="384dp" />
 
     <EditText
-        android:id="@+id/editText5"
-        android:layout_width="293dp"
-        android:layout_height="50dp"
-        android:hint="Destination address"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="430dp" />
-
-    <EditText
-        android:id="@+id/editTextPhone"
+        android:id="@+id/destinationAddressText"
         android:layout_width="288dp"
-        android:layout_height="40dp"
+        android:layout_height="49dp"
+        android:hint="Destination address"
+        tools:layout_editor_absoluteX="19dp"
+        tools:layout_editor_absoluteY="464dp" />
+
+    <EditText
+        android:id="@+id/TextPhone"
+        android:layout_width="288dp"
+        android:layout_height="49dp"
         android:ems="10"
         android:inputType="phone"
         android:hint="Phone number"
-        tools:layout_editor_absoluteX="21dp"
+        tools:layout_editor_absoluteX="19dp"
         tools:layout_editor_absoluteY="144dp" />
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress"
-        android:layout_width="285dp"
-        android:layout_height="41dp"
+        android:id="@+id/TextEmailAddress"
+        android:layout_width="288dp"
+        android:layout_height="49dp"
         android:ems="10"
         android:hint="Email"
         android:inputType="textEmailAddress"
-        tools:layout_editor_absoluteX="21dp"
-        tools:layout_editor_absoluteY="221dp" />
+        tools:layout_editor_absoluteX="19dp"
+        tools:layout_editor_absoluteY="224dp" />
 
     <EditText
-        android:id="@+id/editTextNumber2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/travelersNum"
+        android:layout_width="288dp"
+        android:layout_height="49dp"
         android:ems="10"
         android:hint="Number of travelers"
         android:inputType="number"
-        tools:layout_editor_absoluteX="26dp"
-        tools:layout_editor_absoluteY="500dp" />
+        tools:layout_editor_absoluteX="19dp"
+        tools:layout_editor_absoluteY="304dp" />
+
+    <Button
+        android:id="@+id/addAddressButton"
+        android:layout_width="52dp"
+        android:layout_height="50dp"
+        android:onClick="addAddress"
+        android:text="Add"
+        tools:layout_editor_absoluteX="325dp"
+        tools:layout_editor_absoluteY="464dp" />
+
+    <TextView
+        android:id="@+id/optionalAddress"
+        android:layout_width="288dp"
+        android:layout_height="49dp"
+        android:visibility="invisible"
+        android:text=""
+        tools:layout_editor_absoluteX="19dp"
+        tools:layout_editor_absoluteY="544dp" />
+
+    <Button
+        android:id="@+id/RemoveAddress"
+        android:visibility="invisible"
+        android:layout_width="52dp"
+        android:layout_height="50dp"
+        android:text="Remove"
+        tools:layout_editor_absoluteX="325dp"
+        tools:layout_editor_absoluteY="544dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
