@@ -16,5 +16,6 @@ public class AddTravelActivity extends AppCompatActivity {
     }
 
     public void addAddress(View view) {
+
     }
 }

@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UI.AddTravelActivity">
+
+
     <CalendarView
         android:id="@+id/calendarDate"
         android:layout_width="317dp"
@@ -92,6 +94,7 @@
         android:text="Remove"
         tools:layout_editor_absoluteX="325dp"
         tools:layout_editor_absoluteY="544dp" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
