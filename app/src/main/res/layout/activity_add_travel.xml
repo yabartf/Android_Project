@@ -4,39 +4,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.AddTravelActivity">
-
-
+    tools:context=".UI.AddTravelActivity"
+    android:id="@+id/main">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/mainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <CalendarView
         android:id="@+id/calendarDate"
         android:layout_width="317dp"
         android:layout_height="288dp"
-        tools:layout_editor_absoluteX="19dp"
-        tools:layout_editor_absoluteY="62dp"
         android:visibility="invisible"/>
     <EditText
         android:id="@+id/name"
         android:layout_width="288dp"
         android:layout_height="49dp"
         android:hint="Name"
-        tools:layout_editor_absoluteX="19dp"
-        tools:layout_editor_absoluteY="64dp" />
+        />
 
     <EditText
-        android:id="@+id/returnAddressText"
+        android:id="@+id/sourceAddressText"
         android:layout_width="288dp"
         android:layout_height="49dp"
         android:hint="Return address"
-        tools:layout_editor_absoluteX="19dp"
-        tools:layout_editor_absoluteY="384dp" />
+         />
 
     <EditText
         android:id="@+id/destinationAddressText"
         android:layout_width="288dp"
         android:layout_height="49dp"
         android:hint="Destination address"
-        tools:layout_editor_absoluteX="19dp"
-        tools:layout_editor_absoluteY="464dp" />
+        />
 
     <EditText
         android:id="@+id/TextPhone"
@@ -45,8 +48,7 @@
         android:ems="10"
         android:inputType="phone"
         android:hint="Phone number"
-        tools:layout_editor_absoluteX="19dp"
-        tools:layout_editor_absoluteY="144dp" />
+        />
 
     <EditText
         android:id="@+id/TextEmailAddress"
@@ -55,8 +57,7 @@
         android:ems="10"
         android:hint="Email"
         android:inputType="textEmailAddress"
-        tools:layout_editor_absoluteX="19dp"
-        tools:layout_editor_absoluteY="224dp" />
+        />
 
     <EditText
         android:id="@+id/travelersNum"
@@ -65,36 +66,39 @@
         android:ems="10"
         android:hint="Number of travelers"
         android:inputType="number"
-        tools:layout_editor_absoluteX="19dp"
-        tools:layout_editor_absoluteY="304dp" />
+        />
 
-    <Button
-        android:id="@+id/addAddressButton"
-        android:layout_width="52dp"
-        android:layout_height="50dp"
-        android:onClick="addAddress"
-        android:text="Add"
-        tools:layout_editor_absoluteX="325dp"
-        tools:layout_editor_absoluteY="464dp" />
+        <Button
+            android:id="@+id/addAddressButton"
+            android:layout_width="288dp"
+            android:layout_height="50dp"
+            android:onClick="addAddress"
+            android:text="Add destination address"
+         />
 
-    <TextView
+        <TextView
         android:id="@+id/optionalAddress"
         android:layout_width="288dp"
         android:layout_height="49dp"
         android:visibility="invisible"
         android:text=""
-        tools:layout_editor_absoluteX="19dp"
-        tools:layout_editor_absoluteY="544dp" />
+        />
 
-    <Button
-        android:id="@+id/RemoveAddress"
-        android:visibility="invisible"
-        android:layout_width="52dp"
-        android:layout_height="50dp"
-        android:text="Remove"
-        tools:layout_editor_absoluteX="325dp"
-        tools:layout_editor_absoluteY="544dp" />
+        <Button
+            android:id="@+id/RemoveAddress"
+            android:layout_width="289dp"
+            android:layout_height="50dp"
+            android:text="Remove"
+            android:visibility="invisible"
+        />
 
-
+        <Button
+            android:id="@+id/submitButton"
+            android:layout_width="288dp"
+            android:layout_height="49dp"
+            android:onClick="submited"
+            android:text="Submit" />
+    </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
