@@ -8,7 +8,6 @@ import androidx.room.TypeConverters;
 
 import com.example.android_project_5840_6639.Data.Models.UserLocation;
 
-import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -26,12 +25,18 @@ public class Travel {
     @NonNull
     @PrimaryKey
     private String travelId = "id";
+    private Date startDate;
+    private Date endDate;
     private String clientName;
     private String clientPhone;
     private String clientEmail;
     private LinkedList<String> destinations;
     private String source;
     private String amountTravelers;
+
+    public Date getStartDate() {return new Date(startDate.getTime());}
+
+    public Date getEndDate() {return new Date(endDate.getTime());}
 
     public String getSource() {return new String(source);}
 
@@ -72,6 +77,10 @@ public class Travel {
     public void addDestinations(String... dest){
         destinations.addAll(Arrays.asList(dest));
     }
+
+    public void setStartDate(Date startDate) {this.startDate = startDate;}
+
+    public void setEndDate(Date endDate) {this.endDate = endDate;}
 
     @TypeConverters(UserLocationConverter.class)
     private UserLocation travelLocation;

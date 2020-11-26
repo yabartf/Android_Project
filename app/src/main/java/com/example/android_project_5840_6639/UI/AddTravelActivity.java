@@ -1,10 +1,7 @@
 package com.example.android_project_5840_6639.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
 import android.view.View;
@@ -26,7 +23,8 @@ public class AddTravelActivity extends AppCompatActivity {
     private final Travel travel = new Travel();
     private Date startDate;
     private Date endDate;
-    private Boolean choosed = false;
+    private String name;
+    private Boolean chosen = false;
     static int addTravelIndex = 0;
     int numOfDestnation = 10;
     TravelViewModel travelViewModel;
@@ -37,13 +35,14 @@ public class AddTravelActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_travel);
         travelViewModel = new ViewModelProvider(this).get(TravelViewModel.class);
         travelViewModel.getIsSuccess().observe(this, aBoolean ->
-                Toast.makeText(getBaseContext(),"updated",Toast.LENGTH_LONG).show());
-        CalendarView calendar = findViewById(R.id.calendarDate);
+                Toast.makeText(getBaseContext(),String.format("Thank you {0}, your request sent", name),Toast.LENGTH_LONG).show());
+
+        CalendarView calendar = findViewById(R.id.calendarDate); // restart CalenderView to the current date
         Date now = new Date();
         calendar.setMinDate(now.getTime());
         calendar.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
-            if (!choosed){
-                Toast.makeText(getBaseContext(),"choosed",Toast.LENGTH_LONG).show();
+            if (!chosen){
+                Toast.makeText(getBaseContext(),"chosen",Toast.LENGTH_LONG).show();
                 String tempDate = "" + year +"/"  + (++month) + "/" + dayOfMonth +" 00:00:00";
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                 try {
@@ -51,11 +50,10 @@ public class AddTravelActivity extends AppCompatActivity {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                //calendar.setMinDate(startDate.getTime() + 86400001);
-                choosed = true;
+                chosen = true;
             }
             else
-            if (choosed)
+            if (chosen)
             {
                 String tempDate = "" + year +"/" + (++month) + "/" + dayOfMonth +" 00:00:00";
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -74,57 +72,62 @@ public class AddTravelActivity extends AppCompatActivity {
         });
     }
 
-
+    /*
+    add dynamic list addresses
+    */
     public void addAddress(View view) {
-        EditText editText = new EditText(this);
-        Button remuveButton = new Button(this);
         LinearLayout linearLayout = findViewById(R.id.addTravelsLayout);
+        // restart new Button and Edit text
+        EditText editText = new EditText(this);
+        Button removeButton = new Button(this);
         editText.setHeight(288);
         editText.setWidth(49);
         editText.setEms(10);
         editText.setId(addTravelIndex + numOfDestnation);
         editText.setHint("Destination address");
-        remuveButton.setHeight(50);
-        remuveButton.setWidth(288);
-        remuveButton.setEms(10);
-        remuveButton.setId(addTravelIndex++);
+        removeButton.setHeight(50);
+        removeButton.setWidth(288);
+        removeButton.setEms(10);
+        removeButton.setId(addTravelIndex++);
         String text = "Remove";
-        remuveButton.setText(text);
-        linearLayout.addView(editText,linearLayout.getChildCount());
-        linearLayout.addView(remuveButton,linearLayout.getChildCount());
+        removeButton.setText(text);
+        linearLayout.addView(editText,linearLayout.getChildCount()); // add to leaner layout
+        linearLayout.addView(removeButton,linearLayout.getChildCount());
 
-
-        remuveButton.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-            public void onClick(View v) {
+        // apply observer on the Buttons view
+        removeButton.setOnClickListener(v -> {
             int id = v.getId();
             linearLayout.removeView(v);
-            TextView tv = findViewById(id + numOfDestnation);
+            TextView tv = findViewById(id + numOfDestnation);   // find the TextView of the Button and remove them
             linearLayout.removeView(tv);
-            for (int i = 2;i < linearLayout.getChildCount() / 2 +1;i++){
+            for (int i = 2;i < linearLayout.getChildCount() / 2 +1;i++){        // update all indexes of Buttons and TextViews
                 linearLayout.getChildAt(i).setId(i - 2);
                 linearLayout.getChildAt(i + numOfDestnation).setId(i + numOfDestnation -2);
-            }
+                }
             --addTravelIndex;
-            }
-        });
-    }
+            });
+        }
 
 
-
+    /*
+    collecting all fields, filling the travel object and send it to DataBase
+     */
     public void submitted(View view) {
         EditText source  = findViewById(R.id.sourceAddressText);
         EditText dest = findViewById(R.id.destinationAddressText);
         EditText mail = findViewById(R.id.TextEmailAddress);
         EditText phone = findViewById(R.id.TextPhone);
         EditText num = findViewById(R.id.travelersNum);
-        EditText name = findViewById(R.id.name);
+        EditText eName = findViewById(R.id.name);
+        name = eName.getText().toString();
         travel.setClientEmail(mail.getText().toString());
         travel.setAmountTravelers(num.getText().toString());
-        travel.setClientName(name.getText().toString());
+        travel.setClientName(name);
         travel.setClientPhone(phone.getText().toString());
         travel.setSource(source.getText().toString());
         travel.addDestinations(dest.getText().toString());
+        travel.setEndDate(endDate);
+        travel.setStartDate(startDate);
         travelViewModel.insert(travel);
     }
 }
