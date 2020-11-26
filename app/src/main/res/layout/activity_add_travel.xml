@@ -64,39 +64,46 @@
             android:hint="Source address"
             />
 
-        <EditText
-            android:id="@+id/destinationAddressText"
-            android:layout_width="288dp"
-            android:layout_height="49dp"
-            android:hint="Destination address"
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/addTravelsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/destinationAddressText"
+                android:layout_width="288dp"
+                android:layout_height="49dp"
+                android:hint="Destination address"
+                />
+
+
+            <Button
+                android:id="@+id/addDestinationButton"
+                android:layout_width="288dp"
+                android:layout_height="50dp"
+                android:onClick="addAddress"
+                android:text="Add destination address" />
+<!--
+            <TextView
+                android:id="@+id/optionalAddress"
+                android:layout_width="288dp"
+                android:layout_height="49dp"
+                android:visibility="invisible"
+                android:text=""
+                android:enabled="false"
             />
 
-
-        <Button
-            android:id="@+id/addAddressButton"
-            android:layout_width="288dp"
-            android:layout_height="50dp"
-            android:onClick="addAddress"
-            android:text="Add destination address"
-         />
-
-        <TextView
-        android:id="@+id/optionalAddress"
-        android:layout_width="288dp"
-        android:layout_height="49dp"
-        android:visibility="invisible"
-        android:text=""
-        android:enabled="false"
-        />
-
-        <Button
-            android:id="@+id/RemoveAddress"
-            android:layout_width="289dp"
-            android:layout_height="50dp"
-            android:text="Remove"
-            android:visibility="invisible"
-        />
-
+            <Button
+                android:id="@+id/RemoveAddress"
+                android:layout_width="289dp"
+                android:layout_height="50dp"
+                android:text="Remove"
+                android:visibility="invisible"
+            />
+         -->
+        </LinearLayout>
         <Button
             android:id="@+id/submitButton"
             android:layout_width="288dp"
