@@ -24,12 +24,8 @@ public class AddTravelActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_travel);
         travelViewModel = new ViewModelProvider(this).get(TravelViewModel.class);
-        travelViewModel.getIsSuccess().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                Toast.makeText(getBaseContext(),"updated",Toast.LENGTH_LONG).show();
-            }
-        });
+        travelViewModel.getIsSuccess().observe(this, aBoolean ->
+                Toast.makeText(getBaseContext(),"updated",Toast.LENGTH_LONG).show());
     }
 
     public void addAddress(View view) {
