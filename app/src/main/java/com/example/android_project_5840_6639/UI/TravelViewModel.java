@@ -11,15 +11,17 @@ import com.example.android_project_5840_6639.Entities.Travel;
 
 public class TravelViewModel extends AndroidViewModel {
     private TravelDataSource travelDataSource;
-    private MutableLiveData<Boolean> allnotes = travelDataSource.getIsSuccess();
+    private MutableLiveData<Boolean> allTravels = new MutableLiveData<Boolean>();
+
     public TravelViewModel(@NonNull Application application) {
         super(application);
         travelDataSource = TravelDataSource.getInstance();
+        allTravels = travelDataSource.getIsSuccess();
     }
-    public void insert(Travel travel) {travelDataSource.addTravel(travel);}//noteRepository.insert(note);}
+    public void insert(Travel travel) {travelDataSource.addTravel(travel);}
     public void update(Travel travel) {}
     public void delete(Travel travel) {}
     public void deleteAllNotes() { }
-    public MutableLiveData<Boolean> getAllnotes() { return null; }
+    public MutableLiveData<Boolean> getIsSuccess() { return travelDataSource.getIsSuccess(); }
 
 }

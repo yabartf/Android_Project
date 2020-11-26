@@ -96,7 +96,7 @@
             android:id="@+id/submitButton"
             android:layout_width="288dp"
             android:layout_height="49dp"
-            android:onClick="submited"
+            android:onClick="submitted"
             android:text="Submit" />
     </LinearLayout>
     </ScrollView>

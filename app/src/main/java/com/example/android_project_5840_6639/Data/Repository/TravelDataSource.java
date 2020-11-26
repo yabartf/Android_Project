@@ -11,7 +11,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
-public class TravelDataSource {
+public class  TravelDataSource {
 
 
     private MutableLiveData<Boolean> isSuccess= new MutableLiveData<>();

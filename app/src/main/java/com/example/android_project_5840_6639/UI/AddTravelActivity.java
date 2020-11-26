@@ -2,6 +2,8 @@ package com.example.android_project_5840_6639.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -13,16 +15,16 @@ import com.example.android_project_5840_6639.Entities.Travel;
 import com.example.android_project_5840_6639.R;
 
 public class AddTravelActivity extends AppCompatActivity {
-    private Travel travel = new Travel();
-    //TravelViewModel travelViewModel = ViewModelProviders.of(this).get(TravelViewModel.class);
+    private final Travel travel = new Travel();
 
-    TravelViewModel travelViewModel = ViewModelProviders.of(this).get(TravelViewModel.class);
+    TravelViewModel travelViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_travel);
-        travelViewModel.getAllnotes().observe(this, new Observer<Boolean>() {
+        travelViewModel = new ViewModelProvider(this).get(TravelViewModel.class);
+        travelViewModel.getIsSuccess().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 Toast.makeText(getBaseContext(),"updated",Toast.LENGTH_LONG).show();
@@ -35,7 +37,7 @@ public class AddTravelActivity extends AppCompatActivity {
     }
 
 
-    public void submited(View view) {
+    public void submitted(View view) {
         EditText source  = findViewById(R.id.sourceAddressText);
         EditText dest = findViewById(R.id.destinationAddressText);
         EditText mail = findViewById(R.id.TextEmailAddress);
