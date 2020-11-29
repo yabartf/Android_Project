@@ -27,10 +27,11 @@ public class Travel {
     private String travelId = "id";
     private Date startDate;
     private Date endDate;
+    private Date creatingDate;
     private String clientName;
     private String clientPhone;
     private String clientEmail;
-    private LinkedList<String> destinations;
+    private LinkedList<String> destinations = new LinkedList<>();
     private String source;
     private String amountTravelers;
 
@@ -100,6 +101,8 @@ public class Travel {
 
 
     public Travel() {
+        Date now = new Date();
+        creatingDate = new Date(now.getTime());
     }
 
     public void setTravelId(@NonNull String travelId) {

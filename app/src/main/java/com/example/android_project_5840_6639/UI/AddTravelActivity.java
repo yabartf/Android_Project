@@ -1,8 +1,5 @@
 package com.example.android_project_5840_6639.UI;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,12 +9,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.example.android_project_5840_6639.Entities.Travel;
 import com.example.android_project_5840_6639.R;
+
+
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 public class AddTravelActivity extends AppCompatActivity {
     private final Travel travel = new Travel();
@@ -26,7 +31,15 @@ public class AddTravelActivity extends AppCompatActivity {
     private String name;
     private Boolean chosen = false;
     static int addTravelIndex = 0;
-    int numOfDestnation = 10;
+
+    EditText source;
+    EditText dest;
+    EditText mail;
+    EditText phone;
+    EditText num;
+    EditText eName;
+
+    int maxOfDestnation = 10;
     TravelViewModel travelViewModel;
 
     @Override
@@ -35,8 +48,19 @@ public class AddTravelActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_travel);
         travelViewModel = new ViewModelProvider(this).get(TravelViewModel.class);
         travelViewModel.getIsSuccess().observe(this, aBoolean ->
-                Toast.makeText(getBaseContext(),String.format("Thank you {0}, your request sent", name),Toast.LENGTH_LONG).show());
+                Toast.makeText(getBaseContext(),String.format("Thank you " + name  + " your request sent"),Toast.LENGTH_LONG).show());
+        source  = findViewById(R.id.sourceAddressText);
+        dest = findViewById(R.id.destinationAddressText);
+        mail = findViewById(R.id.TextEmailAddress);
+        phone = findViewById(R.id.TextPhone);
+        num = findViewById(R.id.travelersNum);
+        eName = findViewById(R.id.name);
 
+        restartCalendar();
+
+    }
+
+    private void restartCalendar() {
         CalendarView calendar = findViewById(R.id.calendarDate); // restart CalenderView to the current date
         Date now = new Date();
         calendar.setMinDate(now.getTime());
@@ -83,7 +107,7 @@ public class AddTravelActivity extends AppCompatActivity {
         editText.setHeight(288);
         editText.setWidth(49);
         editText.setEms(10);
-        editText.setId(addTravelIndex + numOfDestnation);
+        editText.setId(addTravelIndex + maxOfDestnation);
         editText.setHint("Destination address");
         removeButton.setHeight(50);
         removeButton.setWidth(288);
@@ -98,11 +122,11 @@ public class AddTravelActivity extends AppCompatActivity {
         removeButton.setOnClickListener(v -> {
             int id = v.getId();
             linearLayout.removeView(v);
-            TextView tv = findViewById(id + numOfDestnation);   // find the TextView of the Button and remove them
+            TextView tv = findViewById(id + maxOfDestnation);   // find the TextView of the Button and remove them
             linearLayout.removeView(tv);
             for (int i = 2;i < linearLayout.getChildCount() / 2 +1;i++){        // update all indexes of Buttons and TextViews
                 linearLayout.getChildAt(i).setId(i - 2);
-                linearLayout.getChildAt(i + numOfDestnation).setId(i + numOfDestnation -2);
+                linearLayout.getChildAt(i + maxOfDestnation).setId(i + maxOfDestnation -2);
                 }
             --addTravelIndex;
             });
@@ -113,21 +137,43 @@ public class AddTravelActivity extends AppCompatActivity {
     collecting all fields, filling the travel object and send it to DataBase
      */
     public void submitted(View view) {
-        EditText source  = findViewById(R.id.sourceAddressText);
-        EditText dest = findViewById(R.id.destinationAddressText);
-        EditText mail = findViewById(R.id.TextEmailAddress);
-        EditText phone = findViewById(R.id.TextPhone);
-        EditText num = findViewById(R.id.travelersNum);
-        EditText eName = findViewById(R.id.name);
-        name = eName.getText().toString();
-        travel.setClientEmail(mail.getText().toString());
-        travel.setAmountTravelers(num.getText().toString());
-        travel.setClientName(name);
-        travel.setClientPhone(phone.getText().toString());
-        travel.setSource(source.getText().toString());
-        travel.addDestinations(dest.getText().toString());
-        travel.setEndDate(endDate);
-        travel.setStartDate(startDate);
-        travelViewModel.insert(travel);
+        if (validFields() == "") {
+            travel.setClientEmail(mail.getText().toString());
+            travel.setAmountTravelers(num.getText().toString());
+            travel.setClientName(eName.getText().toString());
+            travel.setClientPhone(phone.getText().toString());
+            travel.setSource(source.getText().toString());
+            travel.addDestinations(dest.getText().toString());
+            travel.setEndDate(endDate);
+            travel.setStartDate(startDate);
+            travelViewModel.insert(travel);
+        }
+        else
+            Toast.makeText(getBaseContext(),validFields(),Toast.LENGTH_LONG).show();
+    }
+
+    private String validFields() {
+        String message = "";
+        String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(mail.getText().toString());
+        if (!matcher.matches())
+            message += "Error in mail! \n";
+        if (num.getText().toString().length() < 1)
+            message += "Amount travelers empty! \n";
+        if (eName.getText().toString().length() < 1)
+            message += "Name is empty! \n";
+        if (phone.getText().toString().length() != 10)
+            message += "Phone numbers have to contain 10 digits \n";
+        if (source.getText().toString().length() < 1)
+            message += "Source address is empty! \n";
+        if (dest.getText().toString().length() < 1 )
+            message += "Destination address is empty! \n";
+        if (endDate == null)
+            message += "Not chosen end date \n";
+        if (startDate == null)
+            message += "Not chosen start date \n";
+
+        return message;
     }
 }
