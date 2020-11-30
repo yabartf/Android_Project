@@ -34,10 +34,7 @@ public class AddTravelActivity extends AppCompatActivity {
     private final Travel travel = new Travel();
     private Date startDate;
     private Date endDate;
-    private String name;
     private Boolean chosen = false;
-    static int addTravelIndex = 0;
-
 
     EditText source;
     EditText dest;
@@ -45,8 +42,6 @@ public class AddTravelActivity extends AppCompatActivity {
     EditText phone;
     EditText num;
     EditText eName;
-
-    int maxOfDestnation = 10;
     TravelViewModel travelViewModel;
 
     @Override
@@ -55,16 +50,14 @@ public class AddTravelActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_travel);
         travelViewModel = new ViewModelProvider(this).get(TravelViewModel.class);
         travelViewModel.getIsSuccess().observe(this, aBoolean ->
-                Toast.makeText(getBaseContext(),"Thank you " + this.name  + " your request sent",Toast.LENGTH_LONG).show());
+                Toast.makeText(getBaseContext(),"Thank you " + eName.getText().toString()  + " your request sent",Toast.LENGTH_LONG).show());
         source  = findViewById(R.id.sourceAddressText);
         dest = findViewById(R.id.destinationAddressText);
         mail = findViewById(R.id.TextEmailAddress);
         phone = findViewById(R.id.TextPhone);
         num = findViewById(R.id.travelersNum);
         eName = findViewById(R.id.name);
-
         restartCalendar();
-
     }
 
     private void restartCalendar() {
@@ -84,8 +77,7 @@ public class AddTravelActivity extends AppCompatActivity {
                 chosen = true;
             }
             else
-            if (chosen)
-            {
+                {
                 String tempDate = "" + year +"/" + (++month) + "/" + dayOfMonth +" 00:00:00";
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                 try {
@@ -97,8 +89,6 @@ public class AddTravelActivity extends AppCompatActivity {
                     Toast.makeText(getBaseContext(), "Error", Toast.LENGTH_LONG).show();
                     endDate = null;
                 }
-                else
-                    calendar.setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -135,13 +125,19 @@ public class AddTravelActivity extends AppCompatActivity {
         UserLocation tool = new UserLocation();
         LinearLayout linearLayout = findViewById(R.id.addTravelsLayout);
         int n = linearLayout.getChildCount();
-        List<UserLocation> destinations=new LinkedList<UserLocation>();
-        Location dest = convert_address(linearLayout.getChildAt(0).toString());
+        List<UserLocation> destinations = new LinkedList<UserLocation>();
+        Location dest = convert_address(((EditText)linearLayout.getChildAt(0)).getText().toString());
+        if (dest == null)
+            Toast.makeText(getBaseContext(),"destination address " + 1 + " in invalid",Toast.LENGTH_LONG).show();
         destinations.add(tool.convertFromLocation(dest));
-        for (int i = 1;i<n;i++){
+        for (int i = 1; i < n; i++){
             if(linearLayout.getChildAt(i).getClass()==EditText.class){
-                dest = convert_address(linearLayout.getChildAt(i).toString());
+                dest = convert_address(((EditText)linearLayout.getChildAt(i)).getText().toString());
                 destinations.add(tool.convertFromLocation(dest));
+            }
+            if (destinations.get(i) == null) {
+                Toast.makeText(getBaseContext(), "destination address " + i + " in invalid", Toast.LENGTH_LONG).show();
+                return null;
             }
         }
 
@@ -156,11 +152,11 @@ public class AddTravelActivity extends AppCompatActivity {
     public void submitted(View view) {
         if (validFields() == "") {
             UserLocation tool = new UserLocation();
-            Location tempLocation = convert_address(dest.getText().toString());
-            if ( tempLocation == null)
+            List<UserLocation> destinations = destinationAddresses();
+            if (destinations == null)
                 return;
-            travel.addDestinations(destinationAddresses());
-            tempLocation = convert_address(source.getText().toString());
+            travel.addDestinations(destinations);
+            Location tempLocation = convert_address(source.getText().toString());
             if ( tempLocation == null)
                 return;
             travel.setSource(tool.convertFromLocation(tempLocation));
@@ -194,6 +190,7 @@ public class AddTravelActivity extends AppCompatActivity {
             }
         } catch (IOException e) {
             Toast.makeText(this, "5:Unable to understand address. Check Internet connection.", Toast.LENGTH_LONG).show();
+            return null;
         }
         return null;
     }

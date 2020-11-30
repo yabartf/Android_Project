@@ -37,15 +37,15 @@ public class Travel {
     private String amountTravelers;
     private DateConverter converter = new DateConverter();
 
-    private String getStartDate() {return startDate;}
+    public String getStartDate() {return new String(startDate);}
 
-    private String getEndDate() {return endDate;}
+    public String getEndDate() {return new String(endDate);}
 
-    private String getCreatingDate() {return creatingDate;}
+    public String getCreatingDate() {return new String(creatingDate);}
 
-    private LinkedList<UserLocation> getDestinations() {return destinations;}
+    public LinkedList<UserLocation> getDestinations() {return new LinkedList<>(destinations);}
 
-    private UserLocation getSource() {return source;}
+    public UserLocation getSource() {return source;}
 
     public HashMap<String, Boolean> getCompany() {return company;}
 
