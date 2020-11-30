@@ -37,7 +37,7 @@ public class  TravelDataSource {
 
     List<Travel> travelsList;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    DatabaseReference travels = firebaseDatabase.getReference("ExistingTravels");
+    DatabaseReference travels = firebaseDatabase.getReference("AllTravels");
 
     private TravelDataSource() {
 
@@ -59,7 +59,7 @@ public class  TravelDataSource {
             @Override
             public void onSuccess(Void aVoid) {
                 isSuccess.setValue(true);
-                isSuccess.setValue(null);
+
             }
 
 
@@ -67,7 +67,7 @@ public class  TravelDataSource {
             @Override
             public void onFailure(@NonNull Exception e) {
                 isSuccess.setValue(false);
-                isSuccess.setValue(null);
+
             }
         });
     }

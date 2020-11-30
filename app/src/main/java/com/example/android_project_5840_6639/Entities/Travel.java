@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 
@@ -25,21 +26,28 @@ public class Travel {
     @NonNull
     @PrimaryKey
     private String travelId = "id";
-    private Date startDate;
-    private Date endDate;
-    private Date creatingDate;
+    private String startDate;
+    private String endDate;
+    private String creatingDate;
     private String clientName;
     private String clientPhone;
     private String clientEmail;
-    private LinkedList<String> destinations = new LinkedList<>();
-    private String source;
+    private LinkedList<UserLocation> destinations = new LinkedList<>();
+    private UserLocation source;
     private String amountTravelers;
+    private DateConverter converter = new DateConverter();
 
-    public Date getStartDate() {return new Date(startDate.getTime());}
+    private String getStartDate() {return startDate;}
 
-    public Date getEndDate() {return new Date(endDate.getTime());}
+    private String getEndDate() {return endDate;}
 
-    public String getSource() {return new String(source);}
+    private String getCreatingDate() {return creatingDate;}
+
+    private LinkedList<UserLocation> getDestinations() {return destinations;}
+
+    private UserLocation getSource() {return source;}
+
+    public HashMap<String, Boolean> getCompany() {return company;}
 
     public String getAmountTravelers() {return new String(amountTravelers);}
 
@@ -71,17 +79,19 @@ public class Travel {
         this.clientEmail = clientEmail;
     }
 
-    public void setSource(String source) {this.source = source;}
+    public void setSource(UserLocation source) {this.source = source;}
 
     public void setAmountTravelers(String amountTravelers) {this.amountTravelers = amountTravelers;}
 
-    public void addDestinations(String... dest){
-        destinations.addAll(Arrays.asList(dest));
+    public void addDestinations(List dest){
+        destinations.addAll(dest);
     }
 
-    public void setStartDate(Date startDate) {this.startDate = startDate;}
+    public void setStartDate(Date startDate) {
+            this.startDate = converter.dateToTimestamp(startDate);
+    }
 
-    public void setEndDate(Date endDate) {this.endDate = endDate;}
+    public void setEndDate(Date endDate) {this.endDate = converter.dateToTimestamp(endDate);}
 
     @TypeConverters(UserLocationConverter.class)
     private UserLocation travelLocation;
@@ -102,7 +112,7 @@ public class Travel {
 
     public Travel() {
         Date now = new Date();
-        creatingDate = new Date(now.getTime());
+        creatingDate = converter.dateToTimestamp(new Date(now.getTime()));
     }
 
     public void setTravelId(@NonNull String travelId) {

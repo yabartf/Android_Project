@@ -14,7 +14,8 @@
             android:orientation="vertical"
             android:id="@+id/mainLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            tools:layout_marginLeft="0dp">
             <CalendarView
                 android:id="@+id/calendarDate"
                 android:layout_width="317dp"
@@ -66,7 +67,8 @@
                 android:orientation="vertical"
                 android:id="@+id/addTravelsLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:animateLayoutChanges="true">
 
                 <EditText
                     android:id="@+id/destinationAddressText"
@@ -82,24 +84,6 @@
                     android:layout_height="50dp"
                     android:onClick="addAddress"
                     android:text="Add destination address" />
-                <!--
-                            <TextView
-                                android:id="@+id/optionalAddress"
-                                android:layout_width="288dp"
-                                android:layout_height="49dp"
-                                android:visibility="invisible"
-                                android:text=""
-                                android:enabled="false"
-                            />
-
-                            <Button
-                                android:id="@+id/RemoveAddress"
-                                android:layout_width="289dp"
-                                android:layout_height="50dp"
-                                android:text="Remove"
-                                android:visibility="invisible"
-                            />
-                         -->
             </LinearLayout>
             <Button
                 android:id="@+id/submitButton"

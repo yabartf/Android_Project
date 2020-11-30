@@ -16,17 +16,14 @@ import java.util.List;
 
 public class TravelRepository  {
     private static TravelRepository instance;
-    private MutableLiveData<Boolean> isSuccess= new MutableLiveData<>();
+
     public MutableLiveData<Boolean> getIsSuccess() {
         return travelDataSource.getIsSuccess();
     }
     private TravelDataSource travelDataSource = TravelDataSource.getInstance();
-    private MutableLiveData<Boolean> allTravels = new MutableLiveData<Boolean>();
 
 
-    private TravelRepository(){
-    allTravels = travelDataSource.getIsSuccess();
-    }
+    private TravelRepository(){}
 
 
     public static TravelRepository getInstance(){
