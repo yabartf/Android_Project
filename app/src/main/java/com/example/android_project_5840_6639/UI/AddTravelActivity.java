@@ -1,5 +1,6 @@
 package com.example.android_project_5840_6639.UI;
 
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -9,7 +10,6 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -57,20 +57,23 @@ public class AddTravelActivity extends AppCompatActivity {
         phone = findViewById(R.id.TextPhone);
         num = findViewById(R.id.travelersNum);
         eName = findViewById(R.id.name);
-        restartCalendar();
+        playCalendar();
     }
-
-    private void restartCalendar() {
+    /*
+    play calendar, set minimum date and declared listener.
+     */
+    private void playCalendar() {
         CalendarView calendar = findViewById(R.id.calendarDate); // restart CalenderView to the current date
         Date now = new Date();
         calendar.setMinDate(now.getTime());
         calendar.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
             if (!chosen){
-                Toast.makeText(getBaseContext(),"chosen",Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(),"Chosen",Toast.LENGTH_LONG).show();
                 String tempDate = "" + year +"/"  + (++month) + "/" + dayOfMonth +" 00:00:00";
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                 try {
                     startDate = sdf.parse(tempDate);
+                    calendar.setMinDate(startDate.getTime());
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -81,14 +84,17 @@ public class AddTravelActivity extends AppCompatActivity {
                 String tempDate = "" + year +"/" + (++month) + "/" + dayOfMonth +" 00:00:00";
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                 try {
-                    endDate = sdf.parse(tempDate);
+                    if (endDate.getTime() < startDate.getTime())
+                        Toast.makeText(getBaseContext(), "Error - choose again please", Toast.LENGTH_LONG).show();
+                    else
+                        {
+                        endDate = sdf.parse(tempDate);
+                        Toast.makeText(getBaseContext(), "Chosen", Toast.LENGTH_LONG).show();
+                        }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                if (endDate.getTime() < startDate.getTime()) {
-                    Toast.makeText(getBaseContext(), "Error", Toast.LENGTH_LONG).show();
-                    endDate = null;
-                }
+
             }
         });
     }
@@ -109,9 +115,8 @@ public class AddTravelActivity extends AppCompatActivity {
         linearLayout.addView(editText,linearLayout.getChildCount() - 1);
         linearLayout.addView(removeButton,linearLayout.getChildCount() - 1);
 
-
         removeButton.setOnClickListener(v -> {
-                    for (int i = 0;i < linearLayout.getChildCount() ;i ++){
+                    for (int i = 0; i < linearLayout.getChildCount() ;i ++){    // update all indexes
                         if(linearLayout.getChildAt(i) == v) {
                             linearLayout.removeView(linearLayout.getChildAt(i - 1));
                             linearLayout.removeView(v);
@@ -121,22 +126,25 @@ public class AddTravelActivity extends AppCompatActivity {
                 }
         );
     }
+    /*
+    return list of all destinations
+     */
     private List<UserLocation> destinationAddresses(){
         UserLocation tool = new UserLocation();
-        LinearLayout linearLayout = findViewById(R.id.addTravelsLayout);
+        LinearLayout linearLayout = findViewById(R.id.addTravelsLayout); // layout of all destinations
         int n = linearLayout.getChildCount();
         List<UserLocation> destinations = new LinkedList<UserLocation>();
         Location dest = convert_address(((EditText)linearLayout.getChildAt(0)).getText().toString());
         if (dest == null)
-            Toast.makeText(getBaseContext(),"destination address " + 1 + " in invalid",Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(),"destination address " + 1 + " invalid",Toast.LENGTH_LONG).show();
         destinations.add(tool.convertFromLocation(dest));
         for (int i = 1; i < n; i++){
-            if(linearLayout.getChildAt(i).getClass()==EditText.class){
+            if(linearLayout.getChildAt(i).getClass() == EditText.class){        // check is not Button "remove"
                 dest = convert_address(((EditText)linearLayout.getChildAt(i)).getText().toString());
                 destinations.add(tool.convertFromLocation(dest));
             }
             if (destinations.get(i) == null) {
-                Toast.makeText(getBaseContext(), "destination address " + i + " in invalid", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "destination address " + i + " invalid", Toast.LENGTH_LONG).show();
                 return null;
             }
         }
@@ -149,7 +157,7 @@ public class AddTravelActivity extends AppCompatActivity {
     /*
     collecting all fields, filling the travel object and send it to DataBase
      */
-    public void submitted(View view) {
+    public void submitted(View view) throws InterruptedException {
         if (validFields() == "") {
             UserLocation tool = new UserLocation();
             List<UserLocation> destinations = destinationAddresses();
@@ -164,10 +172,12 @@ public class AddTravelActivity extends AppCompatActivity {
             travel.setAmountTravelers(num.getText().toString());
             travel.setClientName(eName.getText().toString());
             travel.setClientPhone(phone.getText().toString());
-
             travel.setEndDate(endDate);
             travel.setStartDate(startDate);
             travelViewModel.insert(travel);
+            Thread.sleep(1000);
+            Intent i = new Intent(this,MainActivity.class);
+            startActivity(i);
         }
         else
             Toast.makeText(getBaseContext(),validFields(),Toast.LENGTH_LONG).show();

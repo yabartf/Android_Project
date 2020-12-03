@@ -55,6 +55,7 @@ public class  TravelDataSource {
     public void addTravel(Travel p) {
         String id = travels.push().getKey();
         p.setTravelId(id);
+        p.setStatus(Travel.RequestType.getType(0));
         travels.child(id).setValue(p).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {

@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:layout_marginLeft="0dp">
+
             <CalendarView
                 android:id="@+id/calendarDate"
                 android:layout_width="317dp"
@@ -91,6 +92,8 @@
                 android:layout_height="49dp"
                 android:onClick="submitted"
                 android:text="Submit" />
+
+
         </LinearLayout>
     </ScrollView>
 

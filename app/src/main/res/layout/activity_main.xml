@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.android_project_5840_6639.UI.MainActivity">
+    tools:context="com.example.android_project_5840_6639.UI.MainActivity"
+    android:background="@drawable/main_icon">
 
     <GridLayout
         android:layout_width="match_parent"
@@ -14,9 +15,10 @@
         <Button
             android:id="@+id/AddTravel"
             android:layout_width="420dp"
-            android:layout_height="130dp"
-            android:layout_marginTop="250dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="500dp"
             android:onClick="onclick"
-            android:text="Find travel" />
+            android:text="Find travel"
+            />
     </GridLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

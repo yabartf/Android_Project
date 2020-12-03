@@ -32,10 +32,13 @@ public class Travel {
     private String clientName;
     private String clientPhone;
     private String clientEmail;
+    private Enum<RequestType> status;
     private LinkedList<UserLocation> destinations = new LinkedList<>();
     private UserLocation source;
     private String amountTravelers;
     private DateConverter converter = new DateConverter();
+
+    public Enum<RequestType> getStatus() {return status;}
 
     public String getStartDate() {return new String(startDate);}
 
@@ -82,6 +85,8 @@ public class Travel {
     public void setSource(UserLocation source) {this.source = source;}
 
     public void setAmountTravelers(String amountTravelers) {this.amountTravelers = amountTravelers;}
+
+    public void setStatus(Enum<RequestType> status) {this.status = status;}
 
     public void addDestinations(List dest){
         destinations.addAll(dest);
