@@ -73,7 +73,6 @@ public class AddTravelActivity extends AppCompatActivity {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                 try {
                     startDate = sdf.parse(tempDate);
-                    calendar.setMinDate(startDate.getTime());
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -84,11 +83,11 @@ public class AddTravelActivity extends AppCompatActivity {
                 String tempDate = "" + year +"/" + (++month) + "/" + dayOfMonth +" 00:00:00";
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                 try {
+                    endDate = sdf.parse(tempDate);
                     if (endDate.getTime() < startDate.getTime())
                         Toast.makeText(getBaseContext(), "Error - choose again please", Toast.LENGTH_LONG).show();
                     else
                         {
-                        endDate = sdf.parse(tempDate);
                         Toast.makeText(getBaseContext(), "Chosen", Toast.LENGTH_LONG).show();
                         }
                 } catch (ParseException e) {
